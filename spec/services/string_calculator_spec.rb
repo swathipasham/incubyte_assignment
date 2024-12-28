@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative '../../app/services/string_calculator'
 
 RSpec.describe StringCalculator, type: :service do
 
@@ -31,6 +30,22 @@ RSpec.describe StringCalculator, type: :service do
     context 'when the input has new line character' do
       it 'returns the sum of the numbers' do
         expect(StringCalculator.add("1\n2,3")).to eq(6)
+      end
+    end
+
+    context 'when the input has different delimiters' do
+      it 'returns the sum of the numbers' do
+        expect(StringCalculator.add("//;\n1;2")).to eq(3)
+      end
+    end
+
+    context 'when the input has negative numbers' do
+      it 'throws an exception whem negative number is present' do
+        expect { StringCalculator.add("1,-2") }.to raise_error(StandardError, 'negatives not allowed: -2')
+
+      end
+      it 'throws an exception whem multiple negative numbers are present' do
+        expect { StringCalculator.add("1,-2, -4, -2") }.to raise_error(StandardError, 'negatives not allowed: -2, -4, -2')
       end
     end
   end
