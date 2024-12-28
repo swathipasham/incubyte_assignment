@@ -41,11 +41,11 @@ RSpec.describe StringCalculator, type: :service do
 
     context 'when the input has negative numbers' do
       it 'throws an exception whem negative number is present' do
-        expect { StringCalculator.add("1,-2") }.to raise_error(StandardError, 'negatives not allowed: -2')
+        expect { StringCalculator.add("1,-2") }.to raise_error(StandardError, 'negative numbers not allowed: -2')
 
       end
       it 'throws an exception whem multiple negative numbers are present' do
-        expect { StringCalculator.add("1,-2, -4, -2") }.to raise_error(StandardError, 'negatives not allowed: -2, -4, -2')
+        expect { StringCalculator.add("1,-2, -4, -2") }.to raise_error(StandardError, 'negative numbers not allowed: -2, -4, -2')
       end
     end
   end
