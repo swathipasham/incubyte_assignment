@@ -33,14 +33,22 @@ RSpec.describe StringCalculator, type: :service do
       end
     end
 
-    context 'when the input has different delimiters' do
-      it 'returns the sum of the numbers' do
+    context 'when the input delimiters' do
+      it 'returns the sum of the numbers when the input is different delimeters ' do
         expect(StringCalculator.add("//;\n1;2")).to eq(3)
+      end
+
+       it ' returns the sum when delimeters can be any lenght' do 
+        expect(StringCalculator.add("//[***]\n1***2***3")).to eq(6)
+      end
+
+      it 'returns the sum when there are multiple delimeters' do
+        expect(StringCalculator.add("//[*][%]\n1*2%3")).to eq(6)
       end
     end
 
     context 'when the input has negative numbers' do
-      it 'throws an exception whem negative number is present' do
+      it 'throws an exception when negative number is present' do
         expect { StringCalculator.add("1,-2") }.to raise_error(StandardError, 'negative numbers not allowed: -2')
 
       end
@@ -48,5 +56,12 @@ RSpec.describe StringCalculator, type: :service do
         expect { StringCalculator.add("1,-2, -4, -2") }.to raise_error(StandardError, 'negative numbers not allowed: -2, -4, -2')
       end
     end
+
+    context 'when the input has numbers greater than 1000' do 
+      it 'ignores numbers greater than 1000' do
+        expect(StringCalculator.add("1,1001")).to eq(1)
+      end
+    end
+
   end
 end
