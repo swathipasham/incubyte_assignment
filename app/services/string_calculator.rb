@@ -10,9 +10,9 @@ class StringCalculator
     if numbers.start_with?('//') 
       delimiter = numbers[2]      #custom delimiter
       numbers = numbers.split("\n")[1] #numbers after the new line character
-      numbers.split(delimiter).map(&:to_i).sum  #split the numbers by the custom delimiter and sum them
+      numbers.split(delimiter).map(&:to_i).select { |num| num <= 1000 }.sum  #split the numbers by the custom delimiter and ignores number greater than 1000  and sum them
     else
-     numbers.split(/[\n,]/).map(&:to_i).sum # split the numbers by new line and comma and sum them
+      numbers.split(/[\n,]/).map(&:to_i).select { |num| num <= 1000 }.sum # split the numbers by new line and comma and ignores number greater than 1000  and sum them
     end
 
   end
