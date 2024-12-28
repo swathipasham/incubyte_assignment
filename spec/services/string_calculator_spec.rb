@@ -38,7 +38,7 @@ RSpec.describe StringCalculator, type: :service do
         expect(StringCalculator.add("//;\n1;2")).to eq(3)
       end
 
-       it ' returns the sum when delimeters can be any lenght' do 
+       it 'returns the sum when delimeters can be any length' do 
         expect(StringCalculator.add("//[***]\n1***2***3")).to eq(6)
       end
 

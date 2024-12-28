@@ -6,14 +6,22 @@ class StringCalculator
     negative_numbers = numbers.scan(/-[\d]+/).join(', ')
     raise StandardError, "negative numbers not allowed: #{negative_numbers}" if negative_numbers.present?
 
-    # check if the input has a custom delimiter
-    if numbers.start_with?('//') 
-      delimiter = numbers[2]      #custom delimiter
+   
+    # check if the input has a multiple delimeters of any length
+    if numbers.start_with?('//[')
+      delimiters = numbers.scan(/\[.*?\]/).map { |delimiter| delimiter.gsub(/[\[\]]/, '') } #get the delimiters
+      numbers = numbers.split("\n")[1] #get the numbers after the new line character
+      delimiters.each do |delimiter|
+         numbers = numbers.split(delimiter).join(',') #split the numbers by the delimiters and join them by comma
+      end
+    elsif numbers.start_with?('//') # check if the input has a delimiter 
+      delimiter = numbers[2]
       numbers = numbers.split("\n")[1] #numbers after the new line character
-      numbers.split(delimiter).map(&:to_i).select { |num| num <= 1000 }.sum  #split the numbers by the custom delimiter and ignores number greater than 1000  and sum them
+      numbers = numbers.split(delimiter).join(',')   #split the numbers by the custom delimiter
     else
-      numbers.split(/[\n,]/).map(&:to_i).select { |num| num <= 1000 }.sum # split the numbers by new line and comma and ignores number greater than 1000  and sum them
+      numbers =  numbers.split(/[\n,]/).join(',')  #split the numbers by new line and comma
     end
 
+    numbers.split(',').map(&:to_i).select { |num| num <= 1000 }.sum #convert the numbers to integer, ignore numbers greater than 100 and sum them
   end
 end
